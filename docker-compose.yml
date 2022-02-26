@@ -1,0 +1,66 @@
+version: "3.7"
+
+services:
+
+    # Imagem Teste Comics
+    teste_comics:
+        container_name: teste_comics
+        image: laravel-app
+        restart: unless-stopped
+        build:
+            args:
+                user: gabri
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www/
+        networks:
+            - comics_network
+
+    # Imagem Nginx
+    nginx:
+        container_name: nginx
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "80:80"
+        #            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/:/etc/nginx/conf.d
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        networks:
+            - comics_network
+
+    # Imagem DB Comics
+    comics_db:
+        container_name: comics_db
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        volumes:
+            - ./.docker/mysql/dbdata:/var/lib/mysql
+        ports:
+            - 3306:3306
+        networks:
+            - comics_network
+
+    # Imagem Redis
+    redis:
+        container_name: redis
+        image: redis:latest
+        ports:
+            - 6379:6379
+        networks:
+            - comics_network
+
+networks:
+    comics_network:
+        driver: bridge
