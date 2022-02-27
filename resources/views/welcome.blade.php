@@ -552,13 +552,9 @@
 
       <p class="dark:text-white">{!! $comics->comicAttribution() !!}</p>
       {{--      <p class="dark:text-white">{!! $comics->comicAttribution() !!}</p>--}}
-      @forelse($comics->arrayObjectListComics() as $comic)
+      @forelse($comics->arrayListComics() as $comic)
         <div style="max-width: 100%;">
-          @if(empty($comic->images))
-            <img src="{{ $comic->thumbnail->path }}.{{ $comic->thumbnail->extension }}" width="50" alt="">
-          @else
-            <img src="{{ $comic->images[0]->path }}.{{ $comic->images[0]->extension }}" width="50" alt="">
-          @endif
+          <img src="{{ $comics->imageComic($comic->id)}}" width="50" alt="">
         </div>
       @empty
       @endforelse

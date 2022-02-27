@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Services\Comics\MarvelComics;
-use App\Services\Comics\MarvelsData;
+use App\Services\Comics\MarvelAccess;
+use App\Services\Comics\MarvelData;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +15,7 @@ use App\Services\Comics\MarvelsData;
 |
 */
 
-$comics = new MarvelsData(new MarvelComics());
+$comics = new MarvelData(new MarvelAccess());
 
 Route::get('/', function () use ($comics) {
 
@@ -23,5 +23,5 @@ Route::get('/', function () use ($comics) {
 });
 
 Route::get('/data-json', function () use ($comics) {
-    return $comics->arrayObjectListComics();
+    return $comics->arrayListComics();
 });

@@ -11,7 +11,7 @@ use Carbon\Carbon;
  *
  * @author Gabriel Matheus Silva <gabrielmath@hotmail.com>
  */
-class MarvelComics implements Comics
+class MarvelAccess implements AccessComics
 {
     private string $baseUrl;
 
@@ -22,7 +22,7 @@ class MarvelComics implements Comics
 
     public function __toString(): string
     {
-        return $this->baseUrl();
+        return $this->baseComicUrlAPI();
     }
 
     /**
@@ -30,9 +30,9 @@ class MarvelComics implements Comics
      *
      * @return string
      */
-    public function baseUrl(): string
+    public function baseComicUrlAPI(): string
     {
-        return $this->baseUrl . $this->hashUrl();
+        return $this->baseUrl . $this->authenticationHashUrl();
     }
 
     /**
@@ -41,9 +41,9 @@ class MarvelComics implements Comics
      * @param int $idComic
      * @return string
      */
-    public function comicSingleUrl(int $idComic): string
+    public function singleComicUrlAPI(int $idComic): string
     {
-        return $this->baseUrl . '/' . $idComic . $this->hashUrl();
+        return $this->baseUrl . '/' . $idComic . $this->authenticationHashUrl();
     }
 
     /**
@@ -51,7 +51,7 @@ class MarvelComics implements Comics
      *
      * @return string
      */
-    private function hashUrl(): string
+    private function authenticationHashUrl(): string
     {
         $ts = Carbon::now();
         $publicKey = config('services.marvel.public_key');

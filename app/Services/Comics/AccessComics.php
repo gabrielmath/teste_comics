@@ -2,14 +2,14 @@
 
 namespace App\Services\Comics;
 
-interface Comics
+interface AccessComics
 {
     /**
      * Retorna a URL principal da API
      *
      * @return string
      */
-    public function baseUrl(): string;
+    public function baseComicUrlAPI(): string;
 
     /**
      * Retorna a URL de uma **HQ Específica**
@@ -17,5 +17,5 @@ interface Comics
      * @param int $idComic
      * @return string
      */
-    public function comicUrl(int $idComic): string;
+    public function singleComicUrlAPI(int $idComic): string;
 }
